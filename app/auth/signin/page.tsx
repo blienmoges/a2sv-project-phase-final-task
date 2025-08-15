@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 
+import { signIn } from "next-auth/react";
 interface FormData {
   email: string;
   password: string;
@@ -28,52 +29,25 @@ export default function SignInPage() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Client-side validation
-    if (!formData.email || !formData.password) {
-      setErrorMessage("Please fill in all fields");
-      return;
-    }
-
-    setIsLoading(true);
-    setErrorMessage("");
-
     try {
-      const response = await fetch("https://akil-backend.onrender.com/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const response = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
       });
 
-      const data: ApiResponse = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Login failed");
+      if (response?.error) {
+        throw new Error(response.error);
       }
 
-      // Verify all required data exists
-      if (!data.data?.accessToken || !data.data?.id) {
-        throw new Error("Incomplete authentication data received");
-      }
-
-      localStorage.setItem("accessToken", data.data.accessToken);
-      localStorage.setItem("refreshToken", data.data.refreshToken || "");
-      localStorage.setItem("id", data.data.id);
-      localStorage.setItem("role", data.data.role || "user");
-
-      // window.location.href = "/";
       router.push("/");
+      router.refresh(); // Important for server components
     } catch (err) {
-      console.error("Login error:", err);
-      setErrorMessage(
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      );
-    } finally {
-      setIsLoading(false);
+      setErrorMessage(err instanceof Error ? err.message : "Login failed");
     }
   };
 

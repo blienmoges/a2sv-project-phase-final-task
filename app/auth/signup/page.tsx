@@ -81,40 +81,27 @@ export default function SignupPage() {
       setError("");
       setIsGoogleLoading(true);
 
-      // Clear any existing auth state
-      localStorage.removeItem("nextauth.message");
-
+      // Use signIn with Google provider
       const result = await signIn("google", {
-        callbackUrl: "/", // Use absolute path
-        redirect: false,
+        callbackUrl: "/", // Where to redirect after success
+        redirect: false, // We'll handle the redirect manually
       });
 
-      console.log("Google auth result:", result); // Debugging
-
       if (result?.error) {
-        // Handle specific OAuth errors
-        if (
-          result.error === "OAuthSignin" ||
-          result.error === "OAuthCallback"
-        ) {
-          throw new Error("Google authentication failed. Please try again.");
-        }
         throw new Error(result.error);
       }
 
       if (result?.url) {
-        // Force full page reload to ensure auth state is properly initialized
-        window.location.href = result.url;
+        // Handle successful authentication
+        window.location.href = result.url; // Full page reload to ensure auth state is updated
         return;
       }
-
-      throw new Error("No response received from Google authentication");
     } catch (err) {
       console.error("Google sign-up error:", err);
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to connect to Google. Please check your network."
+          : "Failed to authenticate with Google"
       );
     } finally {
       setIsGoogleLoading(false);

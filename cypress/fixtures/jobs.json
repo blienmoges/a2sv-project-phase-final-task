@@ -1,0 +1,14 @@
+[
+  {
+    "id": "job1",
+    "title": "Frontend Developer",
+    "description": "React experience required",
+    "location": ["Remote"],
+    "opType": "Full-time",
+    "categories": ["React", "TypeScript"],
+    "logoUrl": "/logo.png",
+    "orgName": "Tech Corp",
+    "datePosted": "2023-01-01",
+    "isBookmarked": false
+  }
+]
