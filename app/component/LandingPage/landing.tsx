@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../store/hook";
 import { getJobs } from "../store/slices/jobSlice";
-import JobCard from "../cards/page";
+import JobCard from "../cards/JobCard";
 
 export default function Landing() {
   const dispatch = useAppDispatch();
@@ -64,7 +64,11 @@ export default function Landing() {
                   ? job.location[0]
                   : "Remote",
                 posted_on: job.datePosted,
+                deadline: job.datePosted,
+                start_date: job.datePosted,
+                end_date: job.datePosted,
                 categories: job.categories || [],
+                required_skills: [],
               },
             }}
           />
