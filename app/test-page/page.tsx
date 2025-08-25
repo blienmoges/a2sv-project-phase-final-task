@@ -1,6 +1,6 @@
 // app/pages/test-page.tsx
 "use client";
-import JobCard from "../component/cards/page";
+import JobCard from "../component/cards/JobCard";
 import { Job } from "../types/job";
 
 const TestPage = () => {
