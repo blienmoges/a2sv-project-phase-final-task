@@ -87,7 +87,6 @@ export default function JobCard({ job }: JobCardProps) {
       >
         {isLoading ? (
           <div className="w-6 h-6 flex items-center justify-center">
-            {/* Loading spinner */}
             <svg
               className="animate-spin h-5 w-5 text-yellow-500"
               xmlns="http://www.w3.org/2000/svg"
@@ -186,9 +185,7 @@ export default function JobCard({ job }: JobCardProps) {
                   key={`${job.id}-${index}`}
                   className="flex items-center px-3 py-1 text-xs rounded-full"
                   style={{
-                    border: `1px solid ${
-                      index % 2 === 0 ? "#FFB836" : "#4640DE"
-                    }`,
+                    border: `1px solid ${index % 2 === 0 ? "#FFB836" : "#4640DE"}`,
                     color: index % 2 === 0 ? "#FFB836" : "#4640DE",
                     backgroundColor:
                       index % 2 === 0 ? "#FFB8361A" : "#4640DE1A",
@@ -205,3 +202,5 @@ export default function JobCard({ job }: JobCardProps) {
     </Link>
   );
 }
+
+
